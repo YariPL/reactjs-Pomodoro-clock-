@@ -1,0 +1,21 @@
+body {
+	background: green;
+}
+
+.App {
+	background: gray;
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	display: flex;
+	flex-direction: column;
+}
+.title {
+	text-align: center;
+	font-size: 30px;
+	font-weight: 900;
+}
+.
