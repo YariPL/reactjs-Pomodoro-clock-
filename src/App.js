@@ -33,7 +33,7 @@ class App extends Component {
 		};
 
 		controls = function() {
-		    let fiveMinutes = 60 * 4,
+		    let fiveMinutes = 60 * this.state.sessionLength,
 		        display = document.querySelector('.timer');
 		    this.startTimer(fiveMinutes, display);
 		};
