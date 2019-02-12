@@ -5,7 +5,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			timer:'',
+			timer:'00:00',
 			breakLength:5,
 			sessionLength:25
 		};
@@ -39,6 +39,30 @@ class App extends Component {
 						</div>
 					</div>
 				</div>
+
+				<div className="sessionTimer">
+					<div className="sessionTimerTitle">
+						Session
+					</div>
+					<Timer timerValue = {this.state.timer}/>
+					<div className="buttons">
+						BUTTONS
+					</div>
+				</div>
+
+			</div>
+		);
+	}
+}
+
+class Timer extends Component {
+	constructor() {
+		 super();
+	}
+	render() {
+		return (
+			<div className="timer">
+				{this.props.timerValue}
 			</div>
 		);
 	}

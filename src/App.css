@@ -35,4 +35,9 @@ body {
     display: flex;
     justify-content: space-around; }
 
+.sessionTimer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
 /*# sourceMappingURL=App.css.map */
