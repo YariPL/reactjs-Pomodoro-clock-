@@ -9,8 +9,36 @@ class App extends Component {
 			breakLength:5,
 			sessionLength:25
 		};
+		
+ 		this.startTimer = this.startTimer.bind(this)
+ 		this.controls = this.controls.bind(this)
 
 	}
+
+	startTimer = function(duration, display) {
+			let timer = duration, minutes, seconds;
+			setInterval(function () {
+				minutes = parseInt(timer / 60, 10)
+				seconds = parseInt(timer % 60, 10);
+
+				minutes = minutes < 10 ? "0" + minutes : minutes;
+				seconds = seconds < 10 ? "0" + seconds : seconds;
+
+				display.textContent = minutes + ":" + seconds;
+
+				if (--timer < 0) {
+				   timer = duration;
+				}
+			}, 1000); 
+		};
+
+		controls = function() {
+		    let fiveMinutes = 60 * 4,
+		        display = document.querySelector('.timer');
+		    this.startTimer(fiveMinutes, display);
+		};
+
+
 	render() {
 		return (
 			<div className="App">
@@ -45,7 +73,7 @@ class App extends Component {
 						Session
 					</div>
 					<Timer timerValue = {this.state.timer}/>
-					<div className="buttons">
+					<div className="buttons" onClick={()=>this.controls()}>
 						BUTTONS
 					</div>
 				</div>
@@ -58,7 +86,12 @@ class App extends Component {
 class Timer extends Component {
 	constructor() {
 		 super();
+
 	}
+
+
+
+
 	render() {
 		return (
 			<div className="timer">

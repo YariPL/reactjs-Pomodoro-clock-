@@ -12,6 +12,7 @@ body {
 	transform: translate(-50%,-50%);
 	display: flex;
 	flex-direction: column;
+	justify-content:center;
 }
 .title {
 	text-align: center;
@@ -42,4 +43,10 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+.timer {
+	padding: 40px;
+	border: 1px solid black;
+	border-radius: 30%;
+	font-size: 45px;
 }
