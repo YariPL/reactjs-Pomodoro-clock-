@@ -7,17 +7,18 @@ class App extends Component {
 		this.state = {
 			timer:'00:00',
 			breakLength:5,
-			sessionLength:25
+			sessionLength:25,
+			saveTime:null
 		};
 		
- 		this.startTimer = this.startTimer.bind(this)
- 		this.controls = this.controls.bind(this)
+ 		this.startTimer = this.startTimer.bind(this);
+ 		this.start = this.start.bind(this);
 
 	}
-
-	startTimer = function(duration, display) {
+		timera = null;
+		startTimer = function(duration, display) {
 			let timer = duration, minutes, seconds;
-			setInterval(function () {
+			this.timera = setInterval(function () {
 				minutes = parseInt(timer / 60, 10)
 				seconds = parseInt(timer % 60, 10);
 
@@ -25,18 +26,24 @@ class App extends Component {
 				seconds = seconds < 10 ? "0" + seconds : seconds;
 
 				display.textContent = minutes + ":" + seconds;
-
+				
+				console.log(this.state.saveTime)
 				if (--timer < 0) {
 				   timer = duration;
+
 				}
 			}, 1000); 
 		};
 
-		controls = function() {
+		start = function() {
 		    let fiveMinutes = 60 * this.state.sessionLength,
 		        display = document.querySelector('.timer');
 		    this.startTimer(fiveMinutes, display);
 		};
+		stop = function() {
+			console.log(this.state.saveTime)
+			clearInterval(this.timera);
+		}
 		breakPlus = function() {
 			this.setState({
 				breakLength:this.state.breakLength+1
@@ -91,8 +98,11 @@ class App extends Component {
 						Session
 					</div>
 					<Timer timerValue = {this.state.timer}/>
-					<div className="buttons" onClick={()=>this.controls()}>
-						BUTTONS
+					<div className="buttons" onClick={()=>this.start()}>
+						START
+					</div>
+					<div className="buttons" onClick={()=>this.stop()}>
+						Stop
 					</div>
 				</div>
 
@@ -102,10 +112,7 @@ class App extends Component {
 }
 
 class Timer extends Component {
-	constructor() {
-		 super();
 
-	}
 
 
 
