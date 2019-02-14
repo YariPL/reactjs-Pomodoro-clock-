@@ -37,8 +37,26 @@ class App extends Component {
 		        display = document.querySelector('.timer');
 		    this.startTimer(fiveMinutes, display);
 		};
-
-
+		breakPlus = function() {
+			this.setState({
+				breakLength:this.state.breakLength+1
+			});
+		};
+		breakMinus = function() {
+			this.setState({
+				breakLength:this.state.breakLength-1
+			});
+		};
+		sessionPlus = function() {
+			this.setState({
+				sessionLength:this.state.sessionLength+1
+			});
+		};
+		sessionMinus = function() {
+			this.setState({
+				sessionLength:this.state.sessionLength-1
+			});
+		};
 	render() {
 		return (
 			<div className="App">
@@ -51,9 +69,9 @@ class App extends Component {
 							Break Length:
 						</div>
 						<div className="breakLengthDisplay">
-							<span>+</span>
+							<span onClick={()=>this.breakMinus()}>-</span>
 							<span>{this.state.breakLength}</span>
-							<span>-</span>
+							<span onClick={()=>this.breakPlus()}>+</span>
 						</div>
 					</div>
 					<div className="sessionLength">
@@ -61,9 +79,9 @@ class App extends Component {
 							Session Length:
 						</div>
 						<div className="sessionLengthDisplay">
-							<span>+</span>
+							<span onClick={()=>this.sessionMinus()}>-</span>
 							<span>{this.state.sessionLength}</span>
-							<span>-</span>
+							<span onClick={()=>this.sessionPlus()}>+</span>
 						</div>
 					</div>
 				</div>
