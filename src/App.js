@@ -27,33 +27,51 @@ class App extends Component {
 				seconds = seconds < 10 ? "0" + seconds : seconds;
 
 				display.textContent = minutes + ":" + seconds;
-				this.setState( {
-					saveTimeOnPause:`${minutes} : ${seconds}`
-				},() => {
-				    console.log("stateValue:");
-				});
+				
 				if (--timer < 0) {
 				   timer = duration;
-
 				}
-			}, 1000); 
+			}, 1000);			 
 		};
 
 		start_stop = function() {
 			if(this.state.currentTimerState === 'stop'){	
-				let fiveMinutes = 60 * this.state.sessionLength,
-				display = document.querySelector('#time-left');
-				this.startTimer(fiveMinutes, display);
+
+				if(this.state.saveTimeOnPause === null) {
+					let fiveMinutes = 60 * this.state.sessionLength,
+					display = document.querySelector('#time-left');
+					//running timer
+					this.startTimer(fiveMinutes, display);
+
+				} else {
+					let fiveMinutes = 60 * this.state.saveTimeOnPause,
+					display = document.querySelector('#time-left');
+					//running timer
+					this.startTimer(fiveMinutes, display);
+
+				}				
+
+
+
+				
 				console.log('RUN TIMER')
 				this.setState({
 					currentTimerState: 'run'
 				})
 			} else if(this.state.currentTimerState === 'run'){
 				console.log('STOP TIMER')
-				console.log(this.state.saveTimeOnPause)
-				console.log(this.timera)
 
 				clearInterval(this.timera);
+				this.setState({saveTimeOnPause:document.querySelector('#time-left').textContent}, () => {
+								console.log(this.state.saveTimeOnPause)
+				});
+
+
+			
+				this.setState({
+					currentTimerState: 'stop'
+				})
+
 			}
 		}
 
