@@ -8,7 +8,8 @@ class App extends Component {
 			timer:'00:00',
 			breakLength:5,
 			sessionLength:25,
-			saveTime:null
+			saveTime:null,
+			currentmode:true
 		};
 		
  		this.startTimer = this.startTimer.bind(this);
@@ -72,30 +73,31 @@ class App extends Component {
 				</div>
 				<div className="changingDisplay">
 					<div className="breakLength">
-						<div className="breakLengthTitle">
+						<div id="break-label">
 							Break Length:
 						</div>
 						<div className="breakLengthDisplay">
-							<span onClick={()=>this.breakMinus()}>-</span>
-							<span>{this.state.breakLength}</span>
-							<span onClick={()=>this.breakPlus()}>+</span>
+							<span id="break-decrement" onClick={()=>this.breakMinus()}>-</span>
+							<span id="break-length">{this.state.breakLength}</span>
+							<span id="break-increment" onClick={()=>this.breakPlus()}>+</span>
 						</div>
 					</div>
 					<div className="sessionLength">
-						<div className="sessionLengthTitle">
+						<div id="session-label">
 							Session Length:
 						</div>
 						<div className="sessionLengthDisplay">
-							<span onClick={()=>this.sessionMinus()}>-</span>
-							<span>{this.state.sessionLength}</span>
-							<span onClick={()=>this.sessionPlus()}>+</span>
+							<span id="break-increment" onClick={()=>this.sessionMinus()}>-</span>
+							<span id="session-length">{this.state.sessionLength}</span>
+							<span id="session-increment" onClick={()=>this.sessionPlus()}>+</span>
 						</div>
 					</div>
 				</div>
-
+				
 				<div className="sessionTimer">
-					<div className="sessionTimerTitle">
-						Session
+					
+					<div id="timer-label">
+						{this.state.currentmode ? 'Session' : 'Break'}
 					</div>
 					<Timer timerValue = {this.state.timer}/>
 					<div className="buttons" onClick={()=>this.start()}>
