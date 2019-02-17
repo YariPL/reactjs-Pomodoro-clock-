@@ -5,15 +5,15 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			timer:'00:00',
 			breakLength:5,
 			sessionLength:25,
-			saveTime:null,
-			currentmode:true
+			saveTimeOnPause:null,
+			currentBreakSessionMode:true,
+			currentTimerState: 'stop'
 		};
 		
  		this.startTimer = this.startTimer.bind(this);
- 		this.start = this.start.bind(this);
+ 		this.start_stop = this.start_stop.bind(this);
 
 	}
 		timera = null;
@@ -28,7 +28,6 @@ class App extends Component {
 
 				display.textContent = minutes + ":" + seconds;
 				
-				console.log(this.state.saveTime)
 				if (--timer < 0) {
 				   timer = duration;
 
@@ -36,15 +35,25 @@ class App extends Component {
 			}, 1000); 
 		};
 
-		start = function() {
-		    let fiveMinutes = 60 * this.state.sessionLength,
-		        display = document.querySelector('.timer');
-		    this.startTimer(fiveMinutes, display);
-		};
-		stop = function() {
-			console.log(this.state.saveTime)
-			clearInterval(this.timera);
+		start_stop = function() {
+			if(this.state.currentTimerState === 'stop'){	
+				let fiveMinutes = 60 * this.state.sessionLength,
+				display = document.querySelector('#time-left');
+				this.startTimer(fiveMinutes, display);
+				console.log('RUN TIMER')
+				this.setState({
+					currentTimerState: 'run'
+				})
+			} else if(this.state.currentTimerState === 'run'){
+				console.log('STOP TIMER')
+				console.log(this.state.saveTimeOnPause)
+				clearInterval(this.timera);
+			}
 		}
+
+
+
+		//increase / decrease time functions
 		breakPlus = function() {
 			this.setState({
 				breakLength:this.state.breakLength+1
@@ -65,6 +74,7 @@ class App extends Component {
 				sessionLength:this.state.sessionLength-1
 			});
 		};
+
 	render() {
 		return (
 			<div className="App">
@@ -97,15 +107,13 @@ class App extends Component {
 				<div className="sessionTimer">
 					
 					<div id="timer-label">
-						{this.state.currentmode ? 'Session' : 'Break'}
+						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
-					<Timer timerValue = {this.state.timer}/>
-					<div className="buttons" onClick={()=>this.start()}>
-						START
+					<Timer sessionLength = {this.state.sessionLength}/>
+					<div id="start_stop" onClick={()=>this.start_stop()}>
+						START/STOP
 					</div>
-					<div className="buttons" onClick={()=>this.stop()}>
-						Stop
-					</div>
+					
 				</div>
 
 			</div>
@@ -118,11 +126,10 @@ class Timer extends Component {
 
 
 
-
 	render() {
 		return (
-			<div className="timer">
-				{this.props.timerValue}
+			<div id="time-left">
+				{this.props.sessionLength}:00
 			</div>
 		);
 	}
