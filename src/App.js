@@ -27,7 +27,11 @@ class App extends Component {
 				seconds = seconds < 10 ? "0" + seconds : seconds;
 
 				display.textContent = minutes + ":" + seconds;
-				
+				this.setState( {
+					saveTimeOnPause:`${minutes} : ${seconds}`
+				},() => {
+				    console.log("stateValue:");
+				});
 				if (--timer < 0) {
 				   timer = duration;
 
@@ -47,6 +51,8 @@ class App extends Component {
 			} else if(this.state.currentTimerState === 'run'){
 				console.log('STOP TIMER')
 				console.log(this.state.saveTimeOnPause)
+				console.log(this.timera)
+
 				clearInterval(this.timera);
 			}
 		}
