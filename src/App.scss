@@ -1,9 +1,10 @@
 body {
 	background: #242424;
+	color: #8E8E8E;
 }
 
 .App {
-	background: gray;
+	background: #333333;
 	width: 500px;
 	height: 500px;
 	position: absolute;
@@ -14,6 +15,17 @@ body {
 	flex-direction: column;
 	justify-content:center;
 }
+
+#break-decrement,
+#break-increment,
+#break-increment,
+#session-increment,
+#start_stop {
+	cursor: pointer;
+	font-size: 25px;
+}
+
+
 .title {
 	text-align: center;
 	font-size: 30px;

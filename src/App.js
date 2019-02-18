@@ -7,9 +7,11 @@ class App extends Component {
 		this.state = {
 			breakLength:5,
 			sessionLength:25,
-			saveTimeOnPause:null,
+			saveTimeOnPauseMM:null,
+			saveTimeOnPauseSS:null,
 			currentBreakSessionMode:true,
-			currentTimerState: 'stop'
+			currentTimerState: 'stop',
+			timer:null
 		};
 		
  		this.startTimer = this.startTimer.bind(this);
@@ -20,39 +22,38 @@ class App extends Component {
 		startTimer = function(duration, display) {
 			let timer = duration, minutes, seconds;
 			this.timera = setInterval(function () {
-				minutes = parseInt(timer / 60, 10)
-				seconds = parseInt(timer % 60, 10);
-
+					minutes = parseInt(timer / 60, 10)
+					seconds = parseInt(timer % 60, 10);
+				
 				minutes = minutes < 10 ? "0" + minutes : minutes;
 				seconds = seconds < 10 ? "0" + seconds : seconds;
 
 				display.textContent = minutes + ":" + seconds;
 				
-				if (--timer < 0) {
-				   timer = duration;
-				}
-			}, 1000);			 
+				--timer;
+				
+			}, 1000);	
+				
 		};
 
-		start_stop = function() {
+		start_stop = function() {		
+
+				
 			if(this.state.currentTimerState === 'stop'){	
 
-				if(this.state.saveTimeOnPause === null) {
-					let fiveMinutes = 60 * this.state.sessionLength,
+				if(this.state.saveTimeOnPauseMM === null) {
+					let time = 60 * this.state.sessionLength,
 					display = document.querySelector('#time-left');
 					//running timer
-					this.startTimer(fiveMinutes, display);
+					this.startTimer(time, display);
 
 				} else {
-					let fiveMinutes = 60 * this.state.saveTimeOnPause,
+					let time = 60 * this.state.saveTimeOnPauseMM,
 					display = document.querySelector('#time-left');
 					//running timer
-					this.startTimer(fiveMinutes, display);
+					this.startTimer(time, display);
 
 				}				
-
-
-
 				
 				console.log('RUN TIMER')
 				this.setState({
@@ -62,12 +63,16 @@ class App extends Component {
 				console.log('STOP TIMER')
 
 				clearInterval(this.timera);
-				this.setState({saveTimeOnPause:document.querySelector('#time-left').textContent}, () => {
-								console.log(this.state.saveTimeOnPause)
+				this.setState(
+					{saveTimeOnPauseMM:document.querySelector('#time-left')
+					.textContent.substring(0,2)},() => {
+						console.log(this.state.saveTimeOnPauseMM)
 				});
-
-
-			
+				this.setState(
+					{saveTimeOnPauseSS:document.querySelector('#time-left')
+					.textContent.substring(3,5)},() => {
+						console.log(this.state.saveTimeOnPauseSS)
+				});
 				this.setState({
 					currentTimerState: 'stop'
 				})
