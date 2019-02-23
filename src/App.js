@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Countdown from 'react-countdown-now';
 
 import './App.css';
-const renderer = ({ hours, minutes, seconds }) => {
+/*const renderer = ({  minutes, seconds }) => {
  
-    return <span>{hours}:{minutes}:{seconds}</span>;
+    return <span>{minutes}:{seconds}</span>;
   
-};
+};*/
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -19,70 +19,9 @@ class App extends Component {
 			currentTimerState: 'stop',
 			timer:null
 		};
-		
- 		//this.startTimer = this.startTimer.bind(this);
- 		//this.start_stop = this.start_stop.bind(this);
+	
 
 	}
-		/*timera = null;
-		//timer function
-		startTimer = function(duration, display) {
-			let timer = duration, minutes, seconds;
-			this.timera = setInterval(function () {
-					minutes = parseInt(timer / 60, 10)
-					seconds = parseInt(timer % 60, 10);
-				
-				minutes = minutes < 10 ? "0" + minutes : minutes;
-				seconds = seconds < 10 ? "0" + seconds : seconds;
-
-				display.textContent = minutes + ":" + seconds;
-				
-				--timer;
-			}, 1000);	
-		};*/
-
-		//function to start/stop function
-	/*	start_stop = function() {		
-			if(this.state.currentTimerState === 'stop'){	
-
-				if(this.state.saveTimeOnPauseMM === null) {
-					let time = 60 * this.state.sessionLength,
-					display = document.querySelector('#time-left');
-					//running timer
-					this.startTimer(time, display);
-
-				} else {
-					let time = 60 * this.state.saveTimeOnPauseMM,
-					display = document.querySelector('#time-left');
-					//running timer
-					this.startTimer(time, display);
-				}				
-				//change current state to stop
-				this.setState({
-					currentTimerState: 'run'
-				})
-				console.log('RUN TIMER')
-
-			} else if(this.state.currentTimerState === 'run'){
-
-				clearInterval(this.timera);
-				//get current minute.seconds on stop
-				this.setState({
-					saveTimeOnPauseMM:document.querySelector('#time-left').textContent.substring(0,2)},() => {console.log(this.state.saveTimeOnPauseMM)
-				});
-				//get current second on stop
-				this.setState({
-					saveTimeOnPauseSS:document.querySelector('#time-left').textContent.substring(3,5)},() => {console.log(this.state.saveTimeOnPauseSS)
-				});
-				//change current state to stop
-				this.setState({
-					currentTimerState: 'stop'
-				})
-				console.log('STOP TIMER')
-
-			}
-		}*/
-
 
 
 		//increase / decrease time functions
@@ -144,7 +83,7 @@ class App extends Component {
 					</div>
 					 <Countdown
 					    date={Date.now() + 15000}
-					    renderer={renderer}
+					    renderer={props => <div>{props.minutes}:{props.seconds}</div>}
 
 					  />,
 					<div id="start_stop">
@@ -157,22 +96,6 @@ class App extends Component {
 		);
 	}
 }
-/*
-class Countdown extends Component {
 
-
-
-
-	render() {
-
-		
-		return (
-			<div id="time-left">
-				{this.props.renderer}
-			</div>
-		);
-	}
-}
-*/
 export default App;
 
