@@ -63,16 +63,19 @@ class App extends Component {
 				console.log('STOP TIMER')
 
 				clearInterval(this.timera);
+				//get current minute on stop
 				this.setState(
 					{saveTimeOnPauseMM:document.querySelector('#time-left')
 					.textContent.substring(0,2)},() => {
 						console.log(this.state.saveTimeOnPauseMM)
 				});
+				//get current second on stop
 				this.setState(
 					{saveTimeOnPauseSS:document.querySelector('#time-left')
 					.textContent.substring(3,5)},() => {
 						console.log(this.state.saveTimeOnPauseSS)
 				});
+				//change current state to stop
 				this.setState({
 					currentTimerState: 'stop'
 				})
