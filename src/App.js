@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
+import Countdown from 'react-countdown-now';
 
+import './App.css';
+const renderer = ({ hours, minutes, seconds }) => {
+ 
+    return <span>{hours}:{minutes}:{seconds}</span>;
+  
+};
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -14,11 +20,11 @@ class App extends Component {
 			timer:null
 		};
 		
- 		this.startTimer = this.startTimer.bind(this);
- 		this.start_stop = this.start_stop.bind(this);
+ 		//this.startTimer = this.startTimer.bind(this);
+ 		//this.start_stop = this.start_stop.bind(this);
 
 	}
-		timera = null;
+		/*timera = null;
 		//timer function
 		startTimer = function(duration, display) {
 			let timer = duration, minutes, seconds;
@@ -33,10 +39,10 @@ class App extends Component {
 				
 				--timer;
 			}, 1000);	
-		};
+		};*/
 
 		//function to start/stop function
-		start_stop = function() {		
+	/*	start_stop = function() {		
 			if(this.state.currentTimerState === 'stop'){	
 
 				if(this.state.saveTimeOnPauseMM === null) {
@@ -75,7 +81,7 @@ class App extends Component {
 				console.log('STOP TIMER')
 
 			}
-		}
+		}*/
 
 
 
@@ -102,6 +108,7 @@ class App extends Component {
 		};
 
 	render() {
+		
 		return (
 			<div className="App">
 				<div className="title"> 
@@ -135,8 +142,12 @@ class App extends Component {
 					<div id="timer-label">
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
-					<Timer sessionLength = {this.state.sessionLength}/>
-					<div id="start_stop" onClick={()=>this.start_stop()}>
+					 <Countdown
+					    date={Date.now() + 15000}
+					    renderer={renderer}
+
+					  />,
+					<div id="start_stop">
 						START/STOP
 					</div>
 					
@@ -146,20 +157,22 @@ class App extends Component {
 		);
 	}
 }
-
-class Timer extends Component {
+/*
+class Countdown extends Component {
 
 
 
 
 	render() {
+
+		
 		return (
 			<div id="time-left">
-				{this.props.sessionLength}:00
+				{this.props.renderer}
 			</div>
 		);
 	}
 }
-
+*/
 export default App;
 
