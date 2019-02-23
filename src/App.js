@@ -35,7 +35,7 @@ class App extends Component {
 			}, 1000);	
 				
 		};
-
+		//function to start/stop function
 		start_stop = function() {		
 
 				
