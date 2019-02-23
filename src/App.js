@@ -32,9 +32,7 @@ class App extends Component {
 				display.textContent = minutes + ":" + seconds;
 				
 				--timer;
-				
 			}, 1000);	
-				
 		};
 
 		//function to start/stop function
@@ -53,7 +51,7 @@ class App extends Component {
 					//running timer
 					this.startTimer(time, display);
 				}				
-				
+				//change current state to stop
 				this.setState({
 					currentTimerState: 'run'
 				})
