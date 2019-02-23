@@ -19,6 +19,7 @@ class App extends Component {
 
 	}
 		timera = null;
+		//timer function
 		startTimer = function(duration, display) {
 			let timer = duration, minutes, seconds;
 			this.timera = setInterval(function () {
@@ -35,10 +36,9 @@ class App extends Component {
 			}, 1000);	
 				
 		};
+
 		//function to start/stop function
 		start_stop = function() {		
-
-				
 			if(this.state.currentTimerState === 'stop'){	
 
 				if(this.state.saveTimeOnPauseMM === null) {
@@ -52,33 +52,29 @@ class App extends Component {
 					display = document.querySelector('#time-left');
 					//running timer
 					this.startTimer(time, display);
-
 				}				
 				
-				console.log('RUN TIMER')
 				this.setState({
 					currentTimerState: 'run'
 				})
+				console.log('RUN TIMER')
+
 			} else if(this.state.currentTimerState === 'run'){
-				console.log('STOP TIMER')
 
 				clearInterval(this.timera);
-				//get current minute on stop
-				this.setState(
-					{saveTimeOnPauseMM:document.querySelector('#time-left')
-					.textContent.substring(0,2)},() => {
-						console.log(this.state.saveTimeOnPauseMM)
+				//get current minute.seconds on stop
+				this.setState({
+					saveTimeOnPauseMM:document.querySelector('#time-left').textContent.substring(0,2)},() => {console.log(this.state.saveTimeOnPauseMM)
 				});
 				//get current second on stop
-				this.setState(
-					{saveTimeOnPauseSS:document.querySelector('#time-left')
-					.textContent.substring(3,5)},() => {
-						console.log(this.state.saveTimeOnPauseSS)
+				this.setState({
+					saveTimeOnPauseSS:document.querySelector('#time-left').textContent.substring(3,5)},() => {console.log(this.state.saveTimeOnPauseSS)
 				});
 				//change current state to stop
 				this.setState({
 					currentTimerState: 'stop'
 				})
+				console.log('STOP TIMER')
 
 			}
 		}
