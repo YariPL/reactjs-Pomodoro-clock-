@@ -4,7 +4,7 @@ import Countdown from 'react-countdown-now';
 import './App.css';
 const renderer = ({  minutes, seconds }) => {
  
-    return <span>{minutes}:{seconds}</span>;
+    return <span>{minutes}:{seconds<10 ? '0' + seconds : seconds }</span>;
   
 };
 class App extends Component {
@@ -82,9 +82,11 @@ class App extends Component {
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
 					 <Countdown
-					    date={Date.now() + 15000}
+					    date={Date.now() + 10000}
+					    key={'timer'}
+					    zeroPadTime={2}
 					    renderer={renderer}
-
+					    autoStart={true}
 					  />,
 					<div id="start_stop">
 						START/STOP
