@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Countdown from 'react-countdown-now';
 
 import './App.css';
-/*const renderer = ({  minutes, seconds }) => {
+const renderer = ({  minutes, seconds }) => {
  
     return <span>{minutes}:{seconds}</span>;
   
-};*/
+};
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -83,7 +83,7 @@ class App extends Component {
 					</div>
 					 <Countdown
 					    date={Date.now() + 15000}
-					    renderer={props => <div>{props.minutes}:{props.seconds}</div>}
+					    renderer={renderer}
 
 					  />,
 					<div id="start_stop">
