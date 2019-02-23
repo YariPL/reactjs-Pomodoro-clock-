@@ -82,11 +82,11 @@ class App extends Component {
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
 					 <Countdown
-					    date={Date.now() + 10000}
+					    date={Date.now() + (this.state.sessionLength * 60000)}
 					    key={'timer'}
 					    zeroPadTime={2}
 					    renderer={renderer}
-					    autoStart={true}
+					    autoStart={false}
 					  />,
 					<div id="start_stop">
 						START/STOP
