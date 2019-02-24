@@ -12,36 +12,29 @@ class App extends Component {
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
 			timer:null,
-			secondsRemaining:null
-
+			secondsRemaining:null,
+			temporaryHours: null
 		};
-
-
-			//this.secondsRemaining=this.state.sessionLength * 60; 
-			this.intervalHandle=null; 
-		
-		   this.start_stop = this.start_stop.bind(this);
-			this.tick = this.tick.bind(this);
-			this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
+		//this.intervalHandle=null; 
+	   this.start_stop = this.start_stop.bind(this);
+		this.tick = this.tick.bind(this);
+		this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
-			console.log('start')
+			console.log('start');
+			//start timer
 			this.intervalHandle = setInterval(this.tick, 1000);
+			//set time to minutes value
 			let time = this.state.minutes;
+			//
 			this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining : time * 60;
-			
-			this.setState({currentTimerState:'start'},()=>({
-				currentTimerState: 'start'
-			}))
-
+			//change current state to start
+			this.setState({currentTimerState:'start'},()=>({currentTimerState: 'start'}))
 		} else if(this.state.currentTimerState === 'start') {
 			clearInterval(this.intervalHandle);
-
-			this.setState({currentTimerState:'pause'},()=>({
-				currentTimerState: 'pause',
-			}))
-
+			//change current state to pause
+			this.setState({currentTimerState:'pause'},()=>({currentTimerState: 'pause',}))
 		}
 	}
 	//running each second
@@ -52,26 +45,25 @@ class App extends Component {
 		  minutes: min,
 		  seconds: sec
 		})
-			
+		//adding zero if value is less then zero
 		if (sec < 10) {
 		  this.setState({
 		    seconds: "0" + this.state.seconds,
 		  })
 		}
+		//adding zero if value is less then zero
 		if (min < 10) {
 		this.setState({
 		  value: "0" + min,
 		 })
 		}
-		this.secondsRemaining--
+		//decrement seconds
+		this.secondsRemaining--;
 
 
 		
 		console.log(this.secondsRemaining);
-		this.setState({sec, min},()=>({
-			seconds:sec,
-			minutes:min,
-		}))
+		
 			this.setState({	
 				secondsRemaining:this.secondsRemaining
 			});
@@ -145,7 +137,7 @@ class App extends Component {
 						</div>
 						<div className="sessionLengthDisplay">
 							<span id="break-increment" onClick={()=>this.sessionMinus()}>-</span>
-							<span id="session-length">{this.state.sessionLength}</span>
+							<span id="session-length">{this.state.minutes}</span>
 							<span id="session-increment" onClick={()=>this.sessionPlus()}>+</span>
 						</div>
 					</div>
