@@ -6,7 +6,6 @@ class App extends Component {
 		super(props);
 		this.state = {
 			breakLength:5,
-			sessionLength:25,
 			seconds: '00', 
 	  		minutes: 25,
 			saveTimeOnPause:null,
@@ -21,9 +20,9 @@ class App extends Component {
 			//this.secondsRemaining=this.state.sessionLength * 60; 
 			this.intervalHandle=null; 
 		
-		    this.start_stop = this.start_stop.bind(this);
+		   this.start_stop = this.start_stop.bind(this);
 			this.tick = this.tick.bind(this);
-
+			this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
@@ -76,35 +75,50 @@ class App extends Component {
 			seconds:sec,
 			minutes:min,
 		}))
-				this.setState({	
-					secondsRemaining:this.secondsRemaining
-				});
+		this.setState({	
+			secondsRemaining:this.secondsRemaining
+		});
 	}
 	
-
+	renderAfterPlusMinus = function() {
+		let min = Math.floor(this.state.secondsRemaining / 60);
+		let sec = this.state.secondsRemaining - (min * 60);
+		this.setState({
+		  minutes: min,
+		  seconds: sec
+		})
+	}
 
 	//increase / decrease time functions
 	breakPlus = function() {
 		this.setState((breakLength) => ({
 			breakLength:this.state.breakLength+1,
+			//secondsRemaining: this.state.secondsRemaining + 60
+
 		}));
+		this.renderAfterPlusMinus();
 	}
 	breakMinus = function() {
 		this.setState((breakLength) => ({
-			breakLength:this.state.breakLength-1
+			breakLength:this.state.breakLength-1,
+			//secondsRemaining: this.state.secondsRemaining - 60
+
 		}));
+		this.renderAfterPlusMinus();
 	}
 	sessionPlus = function() {
-		this.setState((sessionLength) => ({
-			sessionLength:this.state.sessionLength+1,
+		this.setState((secondsRemaining) => ({
 			secondsRemaining: this.state.secondsRemaining + 60
 
 		}));
+		//this.renderAfterPlusMinus();
 	}
 	sessionMinus = function() {
-		this.setState((sessionLength) => ({
-			sessionLength:this.state.sessionLength-1
+		this.setState((secondsRemaining) => ({
+			secondsRemaining: this.state.secondsRemaining - 60
+
 		}));
+		this.renderAfterPlusMinus();
 	}
 
 	render() {
