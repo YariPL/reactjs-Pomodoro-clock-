@@ -7,7 +7,7 @@ class App extends Component {
 		this.state = {
 			breakLength:5,
 			seconds: '00', 
-	  		minutes: 25,
+	  		minutes: 1,
 			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
@@ -18,38 +18,46 @@ class App extends Component {
 		//this.intervalHandle=null; 
 	   this.start_stop = this.start_stop.bind(this);
 		this.tick = this.tick.bind(this);
+		this.reset = this.reset.bind(this);
+		this.pause = this.pause.bind(this);
+
 		//this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
-			console.log('start');
-			//start timer
-			this.intervalHandle = setInterval(this.tick, 1000);
-			//set time to minutes value
-			let time = this.state.minutes;
-			//cause problem
-			this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-			//change current state to start
-			this.setState({currentTimerState:'start'},()=>({currentTimerState: 'start'}))
+				console.log('start');
+				//start timer
+				this.intervalHandle = setInterval(this.tick, 1000);
+
+				if(this.state.currentBreakSessionMode === true){
+					alert("ss'")
+					//set time to minutes value
+					let time = this.state.minutes;
+					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+
+				} else {
+					let time = this.state.breakLength;
+					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+					
+				}
+				//change current state to start
+				this.setState({currentTimerState:'start'},()=>({currentTimerState: 'start'}))
+			
 		} else if(this.state.currentTimerState === 'start') {
-			clearInterval(this.intervalHandle);
-			//change current state to pause
-			this.setState({currentTimerState:'pause'},()=>({currentTimerState: 'pause',}))
+			this.pause();
 		}
+	}
+	pause = function() {
+		clearInterval(this.intervalHandle);
+			//change current state to pause
+		this.setState({currentTimerState:'pause'},()=>({currentTimerState: 'pause',}))
+
 	}
 	//running each second
 	tick = function() {
-		console.log('tickkk')
-		console.log(this.secondsRemaining)
 		let min = Math.floor(this.secondsRemaining / 60);
-		console.log('min');
-
-		console.log(min);
 		let sec = this.secondsRemaining - (min * 60);
-		this.setState({
-		  minutes: min,
-		  seconds: sec
-		})
+		this.setState({minutes: min, seconds: sec})
 		//adding zero if value is less then zero
 		if (sec < 10) {
 		  this.setState({
@@ -64,29 +72,22 @@ class App extends Component {
 		}
 		//decrement seconds
 		this.secondsRemaining--;
+		if(this.secondsRemaining === 0) {
+			alert('stop')
+			clearInterval(this.intervalHandle);
+			this.setState({currentBreakSessionMode:false},()=>{
 
-
-		
-		//console.log(this.secondsRemaining);
-
-		//save seconds on pause
-		/*this.setState({secondsRemaining:this.secondsRemaining},() => {
-			console.log(this.state.secondsRemaining)
-			console.log('sssssssssssssss');
-		});*/
-		//console.log(this.secondsRemaining);
-
+			})
+		}
+	}
+	reset = function() {
+		this.setState({
+			minutes:25, 
+			seconds:'00'
+		})
+		this.pause();//clearInterval(this.intervalHandle);
 
 	}
-	
-	/*renderAfterPlusMinus = function() {
-		let min = Math.floor(this.state.secondsRemaining / 60);
-		let sec = this.state.secondsRemaining - (min * 60);
-		this.setState({
-		  minutes: min,
-		  seconds: sec
-		})
-	}*/
 
 	//increase / decrease time functions
 	breakPlus = function() {
@@ -95,6 +96,7 @@ class App extends Component {
 			//secondsRemaining: this.state.secondsRemaining + 60
 
 		}));
+		this.pause();
 		//this.renderAfterPlusMinus();
 	}
 	breakMinus = function() {
@@ -103,21 +105,19 @@ class App extends Component {
 			//secondsRemaining: this.state.secondsRemaining - 60
 
 		}));
+		this.pause();
 		//this.renderAfterPlusMinus();
 	}
 	sessionPlus = function() {
 		//adding +1 minute
-		this.setState({minutes: this.state.minutes + 1, seconds: '00'},() => {
-			console.log(this.state.minutes);
-			console.log(this.state.seconds);
-		});
-
+		this.setState({minutes: this.state.minutes + 1, seconds: '00'},() => {});
+		this.pause();
 		//this.renderAfterPlusMinus();
+
 	}
 	sessionMinus = function() {
-		this.setState((secondsRemaining) => ({
-			secondsRemaining: this.state.secondsRemaining - 60
-		}));
+		this.setState({minutes: this.state.minutes - 1, seconds: '00'},() => {});
+		this.pause();
 	}
 
 	render() {
@@ -161,7 +161,9 @@ class App extends Component {
 					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
 					</div>
-					
+					<div id="reset" onClick={this.reset}>
+						reset					
+					</div>
 				</div>
 
 			</div>
