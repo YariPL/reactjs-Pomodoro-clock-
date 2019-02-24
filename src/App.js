@@ -18,7 +18,7 @@ class App extends Component {
 		//this.intervalHandle=null; 
 	   this.start_stop = this.start_stop.bind(this);
 		this.tick = this.tick.bind(this);
-		this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
+		//this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
@@ -27,8 +27,8 @@ class App extends Component {
 			this.intervalHandle = setInterval(this.tick, 1000);
 			//set time to minutes value
 			let time = this.state.minutes;
-			//
-			this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining : time * 60;
+			//cause problem
+			this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
 			//change current state to start
 			this.setState({currentTimerState:'start'},()=>({currentTimerState: 'start'}))
 		} else if(this.state.currentTimerState === 'start') {
@@ -39,7 +39,12 @@ class App extends Component {
 	}
 	//running each second
 	tick = function() {
+		console.log('tickkk')
+		console.log(this.secondsRemaining)
 		let min = Math.floor(this.secondsRemaining / 60);
+		console.log('min');
+
+		console.log(min);
 		let sec = this.secondsRemaining - (min * 60);
 		this.setState({
 		  minutes: min,
@@ -62,27 +67,26 @@ class App extends Component {
 
 
 		
-		console.log(this.secondsRemaining);
-		
-			this.setState({	
-				secondsRemaining:this.secondsRemaining
-			});
+		//console.log(this.secondsRemaining);
 
+		//save seconds on pause
+		this.setState({secondsRemaining:this.secondsRemaining},() => {
+			console.log(this.state.secondsRemaining)
+			console.log('sssssssssssssss');
+		});
+		//console.log(this.secondsRemaining);
 
 
 	}
 	
-	renderAfterPlusMinus = function() {
+	/*renderAfterPlusMinus = function() {
 		let min = Math.floor(this.state.secondsRemaining / 60);
 		let sec = this.state.secondsRemaining - (min * 60);
 		this.setState({
 		  minutes: min,
 		  seconds: sec
 		})
-
-
-		
-	}
+	}*/
 
 	//increase / decrease time functions
 	breakPlus = function() {
@@ -91,7 +95,7 @@ class App extends Component {
 			//secondsRemaining: this.state.secondsRemaining + 60
 
 		}));
-		this.renderAfterPlusMinus();
+		//this.renderAfterPlusMinus();
 	}
 	breakMinus = function() {
 		this.setState((breakLength) => ({
@@ -99,12 +103,15 @@ class App extends Component {
 			//secondsRemaining: this.state.secondsRemaining - 60
 
 		}));
-		this.renderAfterPlusMinus();
+		//this.renderAfterPlusMinus();
 	}
 	sessionPlus = function() {
-		this.setState((secondsRemaining) => ({
-			minutes: this.state.minutes + 1
-		}));
+		//adding +1 minute
+		this.setState({minutes: this.state.minutes + 1},() => {
+			console.log(this.state.minutes);
+			console.log(this.state.seconds);
+		});
+
 		//this.renderAfterPlusMinus();
 	}
 	sessionMinus = function() {
