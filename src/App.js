@@ -24,20 +24,27 @@ class App extends Component {
 
 	}
 	start_stop = function() {
-		if(this.startStop === 'pause'){
-			
+		if(this.state.currentTimerState === 'pause'){
+			console.log('start')
 			this.intervalHandle = setInterval(this.tick, 1000);
 			let time = this.state.minutes;
 			this.secondsRemaining = time * 60;
-	
+			
+			this.setState({currentTimerState:'start'},()=>({
+				currentTimerState: 'start'
+			}))
 
-		} else if(this.startStop === 'start') {
+		} else if(this.state.currentTimerState === 'start') {
 
+			alert('stop!');
 
+			clearInterval(this.intervalHandle);
 
-
-
-
+			this.setState({currentTimerState:'pause'},()=>({
+				currentTimerState: 'pause',
+			}))
+			console.log(this.state.minutes);
+			console.log(this.state.seconds);
 		}
 	}
 
@@ -59,6 +66,12 @@ class App extends Component {
 		 })
 		}
 		this.secondsRemaining--
+
+
+		this.setState({seconds:sec},()=>({
+			seconds:sec,
+			minutes:min
+		}))
 		console.log(this.secondsRemaining)
 	}
 	
@@ -124,7 +137,7 @@ class App extends Component {
 					<div id='time-left'>
 						{this.state.minutes}:{this.state.seconds }
 					</div>
-					<div id="start_stop" onClick={this.startCountDown}>
+					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
 					</div>
 					
