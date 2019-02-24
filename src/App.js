@@ -1,75 +1,50 @@
 import React, { Component } from 'react';
-import Countdown from 'react-countdown-now';
 import './App.css';
 
-const renderer = ({  minutes, seconds }) => {
-
-    return <span>{minutes<10 ? '0' + minutes : minutes }:{seconds<10 ? '0' + seconds : seconds }</span>;
-  	
-};
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			breakLength:5,
 			sessionLength:25,
+			sec:'00',
 			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
 			timer:null
 		};
 		    this.start_stop = this.start_stop.bind(this);
-		    this.calculations = this.calculations.bind(this);
-		    this.changeCurrentState = this.changeCurrentState.bind(this);
+		    
 
 	}
-	startStop = 'pause';
 	start_stop = function() {
 		if(this.startStop === 'pause'){
-			console.log('start_stop');
-			console.log(this.Countdown)
-			//accessed via ref
-			this.Countdown.start();
-			console.log(this.Countdown)
-			this.startStop = 'start';
-		} else {
-			this.Countdown.pause();
-			this.startStop = 'pause';
+			
+		} else if(this.startStop === 'start') {
 
 		}
-	};
-	calculations = function(time) {
-		console.log((time % 60000 / 1000));
-		console.log((time / 60000).toFixed(0));
-		
-
-		console.log(this.state.sessionLength)
-	}
-	changeCurrentState = function(newState) {
-		console.log(newState)
-		
 	}
 	//increase / decrease time functions
 	breakPlus = function() {
 		this.setState((breakLength) => ({
 			breakLength:this.state.breakLength+1
 		}));
-	};
+	}
 	breakMinus = function() {
 		this.setState((breakLength) => ({
 			breakLength:this.state.breakLength-1
 		}));
-	};
+	}
 	sessionPlus = function() {
 		this.setState((sessionLength) => ({
 			sessionLength:this.state.sessionLength+1
 		}));
-	};
+	}
 	sessionMinus = function() {
 		this.setState((sessionLength) => ({
 			sessionLength:this.state.sessionLength-1
 		}));
-	};
+	}
 
 	render() {
 		
@@ -106,15 +81,9 @@ class App extends Component {
 					<div id="timer-label">
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
-					 <Countdown
-					    date={Date.now() + (this.state.sessionLength * 60000)}
-					    key={'timer'}
-					    //zeroPadTime={2}
-					    renderer={renderer}
-					    autoStart={false}
-					    //ref for Countdown component
-					     ref={Countdown => this.Countdown = Countdown}
-					  />
+					<div id='time-left'>
+						{this.state.sessionLength}:{this.state.sec}
+					</div>
 					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
 					</div>
@@ -128,3 +97,11 @@ class App extends Component {
 
 export default App;
 
+/*					 Date.now() + (this.state.sessionLength * 60000)
+
+{minutes<10 ? '0' + minutes : minutes }:{seconds<10 ? '0' + seconds : seconds }
+*/
+
+this.timer =function {
+	setInterval 
+}
