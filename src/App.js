@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Countdown from 'react-countdown-now';
-
 import './App.css';
+
 const renderer = ({  minutes, seconds }) => {
- 
-    return <span>{minutes}:{seconds<10 ? '0' + seconds : seconds }</span>;
-  
+
+    return <span>{minutes<10 ? '0' + minutes : minutes }:{seconds<10 ? '0' + seconds : seconds }</span>;
+  	
 };
 class App extends Component {
 	constructor(props) {
@@ -19,32 +19,34 @@ class App extends Component {
 			currentTimerState: 'stop',
 			timer:null
 		};
-	
+		    this.start_stop = this.start_stop.bind(this);
 
 	}
-
-
-		//increase / decrease time functions
-		breakPlus = function() {
-			this.setState({
-				breakLength:this.state.breakLength+1
-			});
-		};
-		breakMinus = function() {
-			this.setState({
-				breakLength:this.state.breakLength-1
-			});
-		};
-		sessionPlus = function() {
-			this.setState({
-				sessionLength:this.state.sessionLength+1
-			});
-		};
-		sessionMinus = function() {
-			this.setState({
-				sessionLength:this.state.sessionLength-1
-			});
-		};
+	start_stop = function() {
+		console.log('start_stop');
+		this.video.play();
+	};
+	//increase / decrease time functions
+	breakPlus = function() {
+		this.setState({
+			breakLength:this.state.breakLength+1
+		});
+	};
+	breakMinus = function() {
+		this.setState({
+			breakLength:this.state.breakLength-1
+		});
+	};
+	sessionPlus = function() {
+		this.setState({
+			sessionLength:this.state.sessionLength+1
+		});
+	};
+	sessionMinus = function() {
+		this.setState({
+			sessionLength:this.state.sessionLength-1
+		});
+	};
 
 	render() {
 		
@@ -87,8 +89,10 @@ class App extends Component {
 					    zeroPadTime={2}
 					    renderer={renderer}
 					    autoStart={false}
-					  />,
-					<div id="start_stop">
+
+					     ref={Countdown => this.Countdown = Countdown}
+					  />
+					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
 					</div>
 					
