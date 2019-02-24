@@ -70,10 +70,10 @@ class App extends Component {
 		//console.log(this.secondsRemaining);
 
 		//save seconds on pause
-		this.setState({secondsRemaining:this.secondsRemaining},() => {
+		/*this.setState({secondsRemaining:this.secondsRemaining},() => {
 			console.log(this.state.secondsRemaining)
 			console.log('sssssssssssssss');
-		});
+		});*/
 		//console.log(this.secondsRemaining);
 
 
@@ -107,7 +107,7 @@ class App extends Component {
 	}
 	sessionPlus = function() {
 		//adding +1 minute
-		this.setState({minutes: this.state.minutes + 1},() => {
+		this.setState({minutes: this.state.minutes + 1, seconds: '00'},() => {
 			console.log(this.state.minutes);
 			console.log(this.state.seconds);
 		});
