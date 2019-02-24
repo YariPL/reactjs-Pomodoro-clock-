@@ -13,47 +13,62 @@ class App extends Component {
 		this.state = {
 			breakLength:5,
 			sessionLength:25,
-			saveTimeOnPauseMM:null,
-			saveTimeOnPauseSS:null,
+			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
 			timer:null
 		};
 		    this.start_stop = this.start_stop.bind(this);
+		    this.calculations = this.calculations.bind(this);
+		    this.changeCurrentState = this.changeCurrentState.bind(this);
 
 	}
+	startStop = 'pause';
 	start_stop = function() {
-		if(this.state.currentTimerState === 'pause'){
+		if(this.startStop === 'pause'){
 			console.log('start_stop');
 			console.log(this.Countdown)
 			//accessed via ref
 			this.Countdown.start();
-			this.setState({currentTimerState:'start'});
+			console.log(this.Countdown)
+			this.startStop = 'start';
 		} else {
 			this.Countdown.pause();
-			this.setState({currentTimerState:'pause'});
+			this.startStop = 'pause';
+
 		}
 	};
+	calculations = function(time) {
+		console.log((time % 60000 / 1000));
+		console.log((time / 60000).toFixed(0));
+		
+
+		console.log(this.state.sessionLength)
+	}
+	changeCurrentState = function(newState) {
+		console.log(newState)
+		
+	}
 	//increase / decrease time functions
 	breakPlus = function() {
-		this.setState({
+		this.setState((breakLength) => ({
 			breakLength:this.state.breakLength+1
-		});
+		}));
 	};
 	breakMinus = function() {
-		this.setState({
+		this.setState((breakLength) => ({
 			breakLength:this.state.breakLength-1
-		});
+		}));
 	};
 	sessionPlus = function() {
-		this.setState({
+		this.setState((sessionLength) => ({
 			sessionLength:this.state.sessionLength+1
-		});
+		}));
 	};
 	sessionMinus = function() {
-		this.setState({
+		this.setState((sessionLength) => ({
 			sessionLength:this.state.sessionLength-1
-		});
+		}));
 	};
 
 	render() {
@@ -94,10 +109,10 @@ class App extends Component {
 					 <Countdown
 					    date={Date.now() + (this.state.sessionLength * 60000)}
 					    key={'timer'}
-					    zeroPadTime={2}
+					    //zeroPadTime={2}
 					    renderer={renderer}
 					    autoStart={false}
-
+					    //ref for Countdown component
 					     ref={Countdown => this.Countdown = Countdown}
 					  />
 					<div id="start_stop" onClick={this.start_stop}>
