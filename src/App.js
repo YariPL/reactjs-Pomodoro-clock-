@@ -24,7 +24,8 @@ class App extends Component {
 	}
 	start_stop = function() {
 		console.log('start_stop');
-		this.video.play();
+		console.log(this.Countdown.api)
+		this.Countdown.api.start();
 	};
 	//increase / decrease time functions
 	breakPlus = function() {
