@@ -6,8 +6,9 @@ class App extends Component {
 		super(props);
 		this.state = {
 			breakLength:5,
+			sessionLength:25,
 			seconds: '00', 
-	  		minutes: 1,
+	  		minutes: '',
 			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
@@ -28,17 +29,16 @@ class App extends Component {
 				console.log('start');
 				//start timer
 				this.intervalHandle = setInterval(this.tick, 1000);
-
+				//check whether session or breal mode
 				if(this.state.currentBreakSessionMode === true){
-					alert("ss'")
 					//set time to minutes value
-					let time = this.state.minutes;
+					let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
 					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
 
 				} else {
-					let time = this.state.breakLength;
+					let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
 					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-					
+
 				}
 				//change current state to start
 				this.setState({currentTimerState:'start'},()=>({currentTimerState: 'start'}))
@@ -72,13 +72,14 @@ class App extends Component {
 		}
 		//decrement seconds
 		this.secondsRemaining--;
-		if(this.secondsRemaining === 0) {
+		if(this.state.minutes === 0 && this.state.seconds === '00') {
 			alert('stop')
 			clearInterval(this.intervalHandle);
-			this.setState({currentBreakSessionMode:false},()=>{
-
+			this.setState({currentBreakSessionMode:!true,currentTimerState:"pause"},()=>{
+				this.start_stop();
 			})
-		}
+		} 
+		
 	}
 	reset = function() {
 		this.setState({
@@ -144,7 +145,7 @@ class App extends Component {
 						</div>
 						<div className="sessionLengthDisplay">
 							<span id="break-increment" onClick={()=>this.sessionMinus()}>-</span>
-							<span id="session-length">{this.state.minutes}</span>
+							<span id="session-length">{this.state.sessionLength}</span>
 							<span id="session-increment" onClick={()=>this.sessionPlus()}>+</span>
 						</div>
 					</div>
@@ -156,7 +157,7 @@ class App extends Component {
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
 					<div id='time-left'>
-						{this.state.minutes}:{this.state.seconds }
+						{this.state.minutes ? this.state.minutes : this.state.sessionLength}:{this.state.seconds }
 					</div>
 					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
