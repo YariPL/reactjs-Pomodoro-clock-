@@ -56,6 +56,7 @@ class App extends Component {
 		  minutes: min,
 		  seconds: sec
 		})
+			
 		if (sec < 10) {
 		  this.setState({
 		    seconds: "0" + this.state.seconds,
@@ -75,9 +76,12 @@ class App extends Component {
 			seconds:sec,
 			minutes:min,
 		}))
-		this.setState({	
-			secondsRemaining:this.secondsRemaining
-		});
+			this.setState({	
+				secondsRemaining:this.secondsRemaining
+			});
+
+
+
 	}
 	
 	renderAfterPlusMinus = function() {
@@ -87,6 +91,9 @@ class App extends Component {
 		  minutes: min,
 		  seconds: sec
 		})
+
+
+		
 	}
 
 	//increase / decrease time functions
@@ -108,7 +115,8 @@ class App extends Component {
 	}
 	sessionPlus = function() {
 		this.setState((secondsRemaining) => ({
-			secondsRemaining: this.state.secondsRemaining + 60
+			//secondsRemaining: this.state.secondsRemaining + 60,
+			minutes: this.state.minutes + 1
 
 		}));
 		//this.renderAfterPlusMinus();
@@ -118,7 +126,7 @@ class App extends Component {
 			secondsRemaining: this.state.secondsRemaining - 60
 
 		}));
-		this.renderAfterPlusMinus();
+		//this.renderAfterPlusMinus();
 	}
 
 	render() {
