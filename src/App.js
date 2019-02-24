@@ -29,7 +29,6 @@ class App extends Component {
 			console.log('start')
 			this.intervalHandle = setInterval(this.tick, 1000);
 			let time = this.state.minutes;
-			console.log(this.state.secondsRemaining);
 			this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining : time * 60;
 			
 			this.setState({currentTimerState:'start'},()=>({
@@ -37,15 +36,12 @@ class App extends Component {
 			}))
 
 		} else if(this.state.currentTimerState === 'start') {
-
-
 			clearInterval(this.intervalHandle);
 
 			this.setState({currentTimerState:'pause'},()=>({
 				currentTimerState: 'pause',
 			}))
-			console.log(this.state.minutes);
-			console.log(this.state.seconds);
+
 		}
 	}
 	//running each second
@@ -115,18 +111,14 @@ class App extends Component {
 	}
 	sessionPlus = function() {
 		this.setState((secondsRemaining) => ({
-			//secondsRemaining: this.state.secondsRemaining + 60,
 			minutes: this.state.minutes + 1
-
 		}));
 		//this.renderAfterPlusMinus();
 	}
 	sessionMinus = function() {
 		this.setState((secondsRemaining) => ({
 			secondsRemaining: this.state.secondsRemaining - 60
-
 		}));
-		//this.renderAfterPlusMinus();
 	}
 
 	render() {
