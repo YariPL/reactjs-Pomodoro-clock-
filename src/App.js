@@ -16,16 +16,23 @@ class App extends Component {
 			saveTimeOnPauseMM:null,
 			saveTimeOnPauseSS:null,
 			currentBreakSessionMode:true,
-			currentTimerState: 'stop',
+			currentTimerState: 'pause',
 			timer:null
 		};
 		    this.start_stop = this.start_stop.bind(this);
 
 	}
 	start_stop = function() {
-		console.log('start_stop');
-		console.log(this.Countdown.api)
-		this.Countdown.api.start();
+		if(this.state.currentTimerState === 'pause'){
+			console.log('start_stop');
+			console.log(this.Countdown)
+			//accessed via ref
+			this.Countdown.start();
+			this.setState({currentTimerState:'start'});
+		} else {
+			this.Countdown.pause();
+			this.setState({currentTimerState:'pause'});
+		}
 	};
 	//increase / decrease time functions
 	breakPlus = function() {
