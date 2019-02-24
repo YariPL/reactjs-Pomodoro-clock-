@@ -12,11 +12,13 @@ class App extends Component {
 			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
-			timer:null
+			timer:null,
+			secondsRemaining:null
+
 		};
 
 
-			this.secondsRemaining=this.state.sessionLength * 60; 
+			//this.secondsRemaining=this.state.sessionLength * 60; 
 			this.intervalHandle=null; 
 		
 		    this.start_stop = this.start_stop.bind(this);
@@ -28,7 +30,8 @@ class App extends Component {
 			console.log('start')
 			this.intervalHandle = setInterval(this.tick, 1000);
 			let time = this.state.minutes;
-			this.secondsRemaining = time * 60;
+			console.log(this.state.secondsRemaining);
+			this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining : time * 60;
 			
 			this.setState({currentTimerState:'start'},()=>({
 				currentTimerState: 'start'
@@ -36,7 +39,6 @@ class App extends Component {
 
 		} else if(this.state.currentTimerState === 'start') {
 
-			alert('stop!');
 
 			clearInterval(this.intervalHandle);
 
@@ -47,7 +49,7 @@ class App extends Component {
 			console.log(this.state.seconds);
 		}
 	}
-
+	//running each second
 	tick = function() {
 		let min = Math.floor(this.secondsRemaining / 60);
 		let sec = this.secondsRemaining - (min * 60);
@@ -68,11 +70,15 @@ class App extends Component {
 		this.secondsRemaining--
 
 
-		this.setState({seconds:sec},()=>({
+		
+		console.log(this.secondsRemaining);
+		this.setState({sec, min},()=>({
 			seconds:sec,
-			minutes:min
+			minutes:min,
 		}))
-		console.log(this.secondsRemaining)
+				this.setState({	
+					secondsRemaining:this.secondsRemaining
+				});
 	}
 	
 
@@ -80,7 +86,7 @@ class App extends Component {
 	//increase / decrease time functions
 	breakPlus = function() {
 		this.setState((breakLength) => ({
-			breakLength:this.state.breakLength+1
+			breakLength:this.state.breakLength+1,
 		}));
 	}
 	breakMinus = function() {
@@ -90,7 +96,9 @@ class App extends Component {
 	}
 	sessionPlus = function() {
 		this.setState((sessionLength) => ({
-			sessionLength:this.state.sessionLength+1
+			sessionLength:this.state.sessionLength+1,
+			secondsRemaining: this.state.secondsRemaining + 60
+
 		}));
 	}
 	sessionMinus = function() {
