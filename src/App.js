@@ -64,12 +64,12 @@ class App extends Component {
 		//set minutes and seconds to value of min and sec
 		this.setState({minutes: min, seconds: sec},()=>(console.log('')))
 		//adding zero if value is less then zero
-		console.log('%c MINUS','font-size:44px')
 		this.setState({
 			secondsRemaining:this.state.secondsRemaining - 1},
 			()=>(console.log('decrement' + this.state.minutes + 'sss' + this.state.seconds)))
 		//decrement seconds
 		if(this.state.minutes === 0 && this.state.seconds === 0) {
+
 			this.alarm.play();
 			clearInterval(this.intervalHandle);
 			this.setState({
