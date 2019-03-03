@@ -16,7 +16,7 @@ body {
 
 #break-decrement,
 #break-increment,
-#break-increment,
+#session-decrement,
 #session-increment,
 #start_stop {
   cursor: pointer;

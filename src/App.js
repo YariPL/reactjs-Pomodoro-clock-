@@ -6,9 +6,9 @@ class App extends Component {
 		super(props);
 		this.state = {
 			breakLength:5,
-			sessionLength:1,
-			seconds: '00', 
-	  		minutes: 1,
+			sessionLength:25,
+			seconds: 0, 
+	  		minutes: 25,
 			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
@@ -36,13 +36,12 @@ class App extends Component {
 				//set time to minutes value
 				let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
 				this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-				this.setState({secondsRemaining:this.secondsRemaining-1},()=>(console.log('success:new secondsRemaining')))
+				this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 			} else if(this.state.currentBreakSessionMode === false) {
 				console.log('changecurrrentbreaksessionmode false')
-
 				let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
 				this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-				this.setState({secondsRemaining:this.secondsRemaining-1},()=>(console.log('success:new secondsRemaining')))
+				this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 
 			}
 		
@@ -64,7 +63,7 @@ class App extends Component {
 		//set minutes and seconds to value of min and sec
 		this.setState({minutes: min, seconds: sec},()=>(console.log('')))
 		//adding zero if value is less then zero
-		if (sec < 10) {
+		/*if (sec < 10) {
 		  this.setState({
 		    seconds: "0" + this.state.seconds,
 		  })
@@ -74,22 +73,25 @@ class App extends Component {
 		this.setState({
 		  minutes: "0" + min,
 		 })
-		}
+		}*/
 		console.log('%c MINUS','font-size:44px')
 		this.setState({
-			secondsRemaining:this.state.secondsRemaining - 1},()=>(console.log('decrement' + this.state.secondsRemaining + 'sss' + this.state.seconds)))
+			secondsRemaining:this.state.secondsRemaining - 1},
+			()=>(console.log('decrement' + this.state.minutes + 'sss' + this.state.seconds)))
 		//decrement seconds
-		if(this.state.sessionLength === 0 && this.state.seconds === '00') {
-			alert('00')
+		if(this.state.minutes === 0 && this.state.seconds === 0) {
 			clearInterval(this.intervalHandle);
 			this.setState({
 				currentBreakSessionMode:this.state.currentBreakSessionMode ? false : true,
 				currentTimerState:"pause",
-				minutes:this.state.breakLength,
-				seconds:'00',
+				minutes:this.state.currentBreakSessionMode ? this.state.breakLength: this.state.sessionLength,
+				seconds:0,
 				secondsRemaining:null
 			},()=>{
 				this.start_stop();
+				console.log(this.state.seconds)
+				console.log(this.state.minutes)
+			//	alert('00')
 			})
 		} 
 		
@@ -97,7 +99,7 @@ class App extends Component {
 	reset = function() {
 		this.setState({
 			minutes:25, 
-			seconds:'00',
+			seconds:0,
 			breakLength:5,
 			sessionLength:25,
 			secondsRemaining:null,
@@ -115,7 +117,7 @@ class App extends Component {
 		if(!this.state.currentBreakSessionMode) {
 			this.setState({
 				minutes: this.state.minutes >= 60 ? 60 : this.state.breakLength,
-				seconds: '00',
+				seconds: 0,
 				secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
 			this.pause();
 		}
@@ -127,7 +129,7 @@ class App extends Component {
 
 			this.setState({
 				minutes: this.state.minutes <= 1 ? 1 : this.state.breakLength, 
-				seconds: '00', 
+				seconds: 0, 
 				secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
 			this.pause();
 		}
@@ -137,7 +139,7 @@ class App extends Component {
 		this.setState({
 			sessionLength: this.state.sessionLength >= 60 ? 60 : this.state.sessionLength + 1 ,
 			minutes: this.state.minutes >= 60 ? 60 : this.state.minutes + 1,
-			seconds: '00',
+			seconds: 0,
 			secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
 		this.pause();
 
@@ -146,7 +148,7 @@ class App extends Component {
 		this.setState({
 			sessionLength: this.state.sessionLength <= 1 ? 1 : this.state.sessionLength - 1,
 			minutes: this.state.minutes <= 1 ? 1 : this.state.minutes - 1, 
-			seconds: '00',
+			seconds: 0,
 			secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
 		this.pause();
 	}
@@ -187,7 +189,10 @@ class App extends Component {
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
 					<div id='time-left'>
-						{this.state.minutes ? this.state.minutes : this.state.sessionLength}:{this.state.seconds}
+						{this.state.minutes < 10 ? '0' : ''}
+						{this.state.minutes || this.state.minutes === 0 ? this.state.minutes : this.state.sessionLength}:
+						{this.state.seconds < 10 ? '0' : ''}
+						{this.state.seconds}
 					</div>
 					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
