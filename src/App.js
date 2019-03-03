@@ -41,7 +41,7 @@ class App extends Component {
 
 				}
 				//change current state to start
-				this.setState({currentTimerState:'start'},()=>({currentTimerState: 'start'}))
+				this.setState({currentTimerState:'start'},()=>(console.log('success:start')))
 			
 		} else if(this.state.currentTimerState === 'start') {
 			this.pause();
@@ -49,9 +49,8 @@ class App extends Component {
 	}
 	pause = function() {
 		clearInterval(this.intervalHandle);
-			//change current state to pause
+		//change current state to pause
 		this.setState({currentTimerState:'pause'},()=>({currentTimerState: 'pause',}))
-
 	}
 	//running each second
 	tick = function() {
