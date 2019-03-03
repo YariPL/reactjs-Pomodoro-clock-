@@ -68,7 +68,7 @@ class App extends Component {
 			secondsRemaining:this.state.secondsRemaining - 1},
 			()=>(console.log('decrement' + this.state.minutes + 'sss' + this.state.seconds)))
 		//decrement seconds
-		if(this.state.minutes === 0 && this.state.seconds === 0) {
+		if(this.state.secondsRemaining < 0) {
 
 			this.alarm.play();
 			clearInterval(this.intervalHandle);
