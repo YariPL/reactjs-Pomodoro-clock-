@@ -14,7 +14,7 @@ class App extends Component {
 			currentTimerState: 'pause',
 			timer:null,
 			secondsRemaining:0,
-			temporaryHours: null
+			temporaryHours: null,
 		};
 	   this.start_stop = this.start_stop.bind(this);
 		this.tick = this.tick.bind(this);
@@ -157,6 +157,7 @@ class App extends Component {
 		
 		return (
 			<div className="App">
+				<audio src="alarm.mp3"></audio>
 				<div className="title"> 
 					Promodo Clock
 				</div>
