@@ -27,25 +27,25 @@ class App extends Component {
 			//change current state to start
 			this.setState({currentTimerState:'start'},()=>(console.log('success:start')));
 
-				//start timer
-				this.intervalHandle = setInterval(this.tick, 1000);
+			//start timer
+			this.intervalHandle = setInterval(this.tick, 1000);
 
-					//check whether session or breal mode
-					if(this.state.currentBreakSessionMode === true){
-						console.log('changecurrrentbreaksessionmode true')
+				//check whether session or breal mode
+				if(this.state.currentBreakSessionMode === true){
+					console.log('changecurrrentbreaksessionmode true')
 
-						//set time to minutes value
-						let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
-						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-						this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
-					} else if(this.state.currentBreakSessionMode === false) {
-						console.log('changecurrrentbreaksessionmode false')
-						
-						let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
-						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-						this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
+					//set time to minutes value
+					let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
+					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+					this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
+				} else if(this.state.currentBreakSessionMode === false) {
+					console.log('changecurrrentbreaksessionmode false')
+					
+					let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
+					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+					this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 
-					}
+				}
 		
 			
 		} else if(this.state.currentTimerState === 'start') {
@@ -74,58 +74,77 @@ class App extends Component {
 		  value: "0" + min,
 		 })
 		}
-		this.setState({secondsRemaining:this.state.secondsRemaining - 1},()=>(console.log('decrement' + this.state.secondsRemaining)))
+		this.setState({
+			secondsRemaining:this.state.secondsRemaining - 1},()=>(console.log('decrement' + this.state.secondsRemaining)))
 		//decrement seconds
 		//this.statesecondsRemaining--;
-		if(this.state.minutes === 0 && this.state.seconds === '00') {
-
-
-
+		if(this.state.sessionLength === 0 && this.state.seconds === '00') {
+			console.log('__ 00 00 ___');
+			console.log(this.state.minutes);
+			console.log(this.state.seconds);
+			console.log('__ 00 00 ss___');
+			console.log(this.state.sessionLength);
+			console.log(this.state.seconds);
 			clearInterval(this.intervalHandle);
 			this.setState({currentBreakSessionMode:false,currentTimerState:"pause"},()=>{
 				this.start_stop();
 			})
+
 		} 
 		
 	}
 	reset = function() {
 		this.setState({
-			minutes:this.state.sessionLength, 
+			minutes:25, 
 			seconds:'00',
-			breakLength:5
+			breakLength:5,
+			sessionLength:25
 		})
-		this.pause();//clearInterval(this.intervalHandle);
+		this.pause();
 
 	}
 
 	//increase / decrease time functions
 	breakPlus = function() {
-		this.setState({breakLength:this.state.breakLength + 1})
+		this.setState({
+			breakLength:this.state.breakLength >= 60 ? 60 : this.state.breakLength + 1})
 
 		if(!this.state.currentBreakSessionMode) {
-			this.setState({minutes: this.state.breakLength, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
+			this.setState({
+				minutes: this.state.minutes >= 60 ? 60 : this.state.breakLength,
+				seconds: '00',
+				secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
 			this.pause();
-			//this.renderAfterPlusMinus();
 		}
 	}
 	breakMinus = function() {
-		this.setState({breakLength:this.state.breakLength - 1})
+		this.setState({
+			breakLength: this.state.breakLength <= 1 ? 1 : this.state.breakLength - 1})
 		if(!this.state.currentBreakSessionMode) {
 
-			this.setState({minutes: this.state.breakLength, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
+			this.setState({
+				minutes: this.state.minutes <= 1 ? 1 : this.state.breakLength, 
+				seconds: '00', 
+				secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
 			this.pause();
-			//this.renderAfterPlusMinus();
 		}
 	}
 	sessionPlus = function() {
 		//adding +1 minute
-		this.setState({minutes: this.state.minutes + 1, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
+		this.setState({
+			sessionLength: this.state.sessionLength >= 60 ? 60 : this.state.sessionLength + 1 ,
+			minutes: this.state.minutes >= 60 ? 60 : this.state.minutes + 1,
+			seconds: '00',
+			secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
 		this.pause();
-		//this.renderAfterPlusMinus();
 
 	}
 	sessionMinus = function() {
-		this.setState({minutes: this.state.minutes - 1, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
+		this.setState({
+			sessionLength: this.state.sessionLength <= 1 ? 1 : this.state.sessionLength - 1,
+			minutes: this.state.minutes <= 1 ? 1 : this.state.minutes - 1, 
+			seconds: '00',
+			secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
 		this.pause();
 	}
 
