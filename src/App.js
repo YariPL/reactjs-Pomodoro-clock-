@@ -13,7 +13,7 @@ class App extends Component {
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
 			timer:null,
-			milliSecondsRemaining:null,
+			secondsRemaining:0,
 			temporaryHours: null
 		};
 		//this.intervalHandle=null; 
@@ -21,8 +21,6 @@ class App extends Component {
 		this.tick = this.tick.bind(this);
 		this.reset = this.reset.bind(this);
 		this.pause = this.pause.bind(this);
-
-		//this.renderAfterPlusMinus = this.renderAfterPlusMinus.bind(this);
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
@@ -35,26 +33,22 @@ class App extends Component {
 					//check whether session or breal mode
 					if(this.state.currentBreakSessionMode === true){
 						console.log('changecurrrentbreaksessionmode true')
+
 						//set time to minutes value
 						let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
-						console.log(time)
-						this.milliSecondsRemaining = this.state.milliSecondsRemaining ? this.state.milliSecondsRemaining :time * 60;
-						console.log(this.state.milliSecondsRemaining)
-						this.setState({milliSecondsRemaining:this.milliSecondsRemaining},()=>(console.log('success:new milliSecondsRemaining')))
+						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+						this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 					} else if(this.state.currentBreakSessionMode === false) {
 						console.log('changecurrrentbreaksessionmode false')
 						
 						let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
-						this.milliSecondsRemaining = this.state.milliSecondsRemaining ? this.state.milliSecondsRemaining :time * 60;
+						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+						this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 
 					}
 		
 			
 		} else if(this.state.currentTimerState === 'start') {
-			console.log('this.state.minutes');
-			console.log(this.state.minutes);
-			console.log('this.state.seconds');
-			console.log(this.state.seconds);
 			this.pause();
 		}
 	}
@@ -65,11 +59,8 @@ class App extends Component {
 	}
 	//running each second
 	tick = function() {
-		console.log('sss');
-		console.log(this.state.milliSecondsRemaining);
-		//this.state.milliSecondsRemaining ? this.milliSecondsRemaining = this.state.milliSecondsRemaining : this.milliSecondsRemaining = this.milliSecondsRemaining;
-		let min = Math.floor(this.state.milliSecondsRemaining / 60);
-		let sec = this.state.milliSecondsRemaining - (min * 60);
+		let min = Math.floor(this.state.secondsRemaining / 60);
+		let sec = this.state.secondsRemaining - (min * 60);
 		this.setState({minutes: min, seconds: sec})
 		//adding zero if value is less then zero
 		if (sec < 10) {
@@ -83,9 +74,9 @@ class App extends Component {
 		  value: "0" + min,
 		 })
 		}
-		this.setState({milliSecondsRemaining:this.state.milliSecondsRemaining - 1},()=>(console.log('decrement' + this.state.milliSecondsRemaining)))
+		this.setState({secondsRemaining:this.state.secondsRemaining - 1},()=>(console.log('decrement' + this.state.secondsRemaining)))
 		//decrement seconds
-		//this.statemilliSecondsRemaining--;
+		//this.statesecondsRemaining--;
 		if(this.state.minutes === 0 && this.state.seconds === '00') {
 
 
@@ -112,7 +103,7 @@ class App extends Component {
 		this.setState({breakLength:this.state.breakLength + 1})
 
 		if(!this.state.currentBreakSessionMode) {
-			this.setState({minutes: this.state.breakLength, seconds: '00'},() => {});
+			this.setState({minutes: this.state.breakLength, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
 			this.pause();
 			//this.renderAfterPlusMinus();
 		}
@@ -121,20 +112,20 @@ class App extends Component {
 		this.setState({breakLength:this.state.breakLength - 1})
 		if(!this.state.currentBreakSessionMode) {
 
-			this.setState({minutes: this.state.breakLength, seconds: '00'},() => {});
+			this.setState({minutes: this.state.breakLength, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
 			this.pause();
 			//this.renderAfterPlusMinus();
 		}
 	}
 	sessionPlus = function() {
 		//adding +1 minute
-		this.setState({minutes: this.state.minutes + 1, seconds: '00'},() => {});
+		this.setState({minutes: this.state.minutes + 1, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining + 1},() => {});
 		this.pause();
 		//this.renderAfterPlusMinus();
 
 	}
 	sessionMinus = function() {
-		this.setState({minutes: this.state.minutes - 1, seconds: '00'},() => {});
+		this.setState({minutes: this.state.minutes - 1, seconds: '00', secondsRemaining: this.state.milliSecondsRemaining - 1},() => {});
 		this.pause();
 	}
 
