@@ -20,6 +20,9 @@ class App extends Component {
 		this.tick = this.tick.bind(this);
 		this.reset = this.reset.bind(this);
 		this.pause = this.pause.bind(this);
+		//in public folder, relative to index.html
+		this.alarm = new Audio('alarm.mp3');
+
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
@@ -80,6 +83,7 @@ class App extends Component {
 			()=>(console.log('decrement' + this.state.minutes + 'sss' + this.state.seconds)))
 		//decrement seconds
 		if(this.state.minutes === 0 && this.state.seconds === 0) {
+			this.alarm.play();
 			clearInterval(this.intervalHandle);
 			this.setState({
 				currentBreakSessionMode:this.state.currentBreakSessionMode ? false : true,
