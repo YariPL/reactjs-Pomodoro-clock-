@@ -59,9 +59,11 @@ class App extends Component {
 	}
 	//running each second
 	tick = function() {
+		//console.log('%c here we start the show', 'font-size:22px;')
 		let min = Math.floor(this.state.secondsRemaining / 60);
 		let sec = this.state.secondsRemaining - (min * 60);
-		this.setState({minutes: min, seconds: sec})
+		//set minutes and seconds to value of min and sec
+		this.setState({minutes: min, seconds: sec},()=>(console.log('min+sec setted')))
 		//adding zero if value is less then zero
 		if (sec < 10) {
 		  this.setState({
@@ -71,7 +73,7 @@ class App extends Component {
 		//adding zero if value is less then zero
 		if (min < 10) {
 		this.setState({
-		  value: "0" + min,
+		  minutes: "0" + min,
 		 })
 		}
 		this.setState({
@@ -79,12 +81,12 @@ class App extends Component {
 		//decrement seconds
 		//this.statesecondsRemaining--;
 		if(this.state.sessionLength === 0 && this.state.seconds === '00') {
-			console.log('__ 00 00 ___');
+		/*	console.log('__ 00 00 ___');
 			console.log(this.state.minutes);
 			console.log(this.state.seconds);
 			console.log('__ 00 00 ss___');
 			console.log(this.state.sessionLength);
-			console.log(this.state.seconds);
+			console.log(this.state.seconds);*/
 			clearInterval(this.intervalHandle);
 			this.setState({currentBreakSessionMode:false,currentTimerState:"pause"},()=>{
 				this.start_stop();
@@ -98,7 +100,8 @@ class App extends Component {
 			minutes:25, 
 			seconds:'00',
 			breakLength:5,
-			sessionLength:25
+			sessionLength:25,
+			secondsRemaining:null
 		})
 		this.pause();
 
@@ -184,7 +187,7 @@ class App extends Component {
 						{this.state.currentBreakSessionMode ? 'Session' : 'Break'}
 					</div>
 					<div id='time-left'>
-						{this.state.minutes ? this.state.minutes : this.state.sessionLength}:{this.state.seconds }
+						{this.state.minutes ? this.state.minutes : this.state.sessionLength}:{this.state.seconds}
 					</div>
 					<div id="start_stop" onClick={this.start_stop}>
 						START/STOP
