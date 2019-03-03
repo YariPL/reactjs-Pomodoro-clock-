@@ -6,9 +6,9 @@ class App extends Component {
 		super(props);
 		this.state = {
 			breakLength:5,
-			sessionLength:25,
+			sessionLength:1,
 			seconds: '00', 
-	  		minutes: 25,
+	  		minutes: 1,
 			saveTimeOnPause:null,
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
@@ -40,7 +40,7 @@ class App extends Component {
 					this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 				} else if(this.state.currentBreakSessionMode === false) {
 					console.log('changecurrrentbreaksessionmode false')
-					
+
 					let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
 					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
 					this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
@@ -80,18 +80,18 @@ class App extends Component {
 			secondsRemaining:this.state.secondsRemaining - 1},()=>(console.log('decrement' + this.state.secondsRemaining)))
 		//decrement seconds
 		//this.statesecondsRemaining--;
-		if(this.state.sessionLength === 0 && this.state.seconds === '00') {
-		/*	console.log('__ 00 00 ___');
-			console.log(this.state.minutes);
-			console.log(this.state.seconds);
-			console.log('__ 00 00 ss___');
-			console.log(this.state.sessionLength);
-			console.log(this.state.seconds);*/
+		if(this.state.minutes === '00' && this.state.seconds === '00') {
+			alert('00')
 			clearInterval(this.intervalHandle);
-			this.setState({currentBreakSessionMode:false,currentTimerState:"pause"},()=>{
+			this.setState({
+				currentBreakSessionMode:this.state.currentBreakSessionMode ? false : true,
+				currentTimerState:"pause",
+				minutes:this.state.breakLength,
+				seconds:'00',
+				secondsRemaining:null
+			},()=>{
 				this.start_stop();
 			})
-
 		} 
 		
 	}
@@ -101,7 +101,8 @@ class App extends Component {
 			seconds:'00',
 			breakLength:5,
 			sessionLength:25,
-			secondsRemaining:null
+			secondsRemaining:null,
+			currentBreakSessionMode:true
 		})
 		this.pause();
 
