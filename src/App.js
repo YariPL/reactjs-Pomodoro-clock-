@@ -13,7 +13,7 @@ class App extends Component {
 			currentBreakSessionMode:true,
 			currentTimerState: 'pause',
 			timer:null,
-			secondsRemaining:null,
+			milliSecondsRemaining:null,
 			temporaryHours: null
 		};
 		//this.intervalHandle=null; 
@@ -26,29 +26,35 @@ class App extends Component {
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
-			console.log('this.state.minutes');
-					console.log(this.state.minutes);
-					console.log('this.state.seconds');
-					console.log(this.state.seconds);
+			//change current state to start
+			this.setState({currentTimerState:'start'},()=>(console.log('success:start')));
+
 				//start timer
 				this.intervalHandle = setInterval(this.tick, 1000);
 
 					//check whether session or breal mode
 					if(this.state.currentBreakSessionMode === true){
+						console.log('changecurrrentbreaksessionmode true')
 						//set time to minutes value
 						let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
-						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-
+						console.log(time)
+						this.milliSecondsRemaining = this.state.milliSecondsRemaining ? this.state.milliSecondsRemaining :time * 60;
+						console.log(this.state.milliSecondsRemaining)
+						this.setState({milliSecondsRemaining:this.milliSecondsRemaining},()=>(console.log('success:new milliSecondsRemaining')))
 					} else if(this.state.currentBreakSessionMode === false) {
+						console.log('changecurrrentbreaksessionmode false')
 						
 						let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
-						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+						this.milliSecondsRemaining = this.state.milliSecondsRemaining ? this.state.milliSecondsRemaining :time * 60;
 
 					}
-				//change current state to start
-				this.setState({currentTimerState:'start'},()=>(console.log('success:start')))
+		
 			
 		} else if(this.state.currentTimerState === 'start') {
+			console.log('this.state.minutes');
+			console.log(this.state.minutes);
+			console.log('this.state.seconds');
+			console.log(this.state.seconds);
 			this.pause();
 		}
 	}
@@ -59,8 +65,11 @@ class App extends Component {
 	}
 	//running each second
 	tick = function() {
-		let min = Math.floor(this.secondsRemaining / 60);
-		let sec = this.secondsRemaining - (min * 60);
+		console.log('sss');
+		console.log(this.state.milliSecondsRemaining);
+		//this.state.milliSecondsRemaining ? this.milliSecondsRemaining = this.state.milliSecondsRemaining : this.milliSecondsRemaining = this.milliSecondsRemaining;
+		let min = Math.floor(this.state.milliSecondsRemaining / 60);
+		let sec = this.state.milliSecondsRemaining - (min * 60);
 		this.setState({minutes: min, seconds: sec})
 		//adding zero if value is less then zero
 		if (sec < 10) {
@@ -74,8 +83,9 @@ class App extends Component {
 		  value: "0" + min,
 		 })
 		}
+		this.setState({milliSecondsRemaining:this.state.milliSecondsRemaining - 1},()=>(console.log('decrement' + this.state.milliSecondsRemaining)))
 		//decrement seconds
-		this.secondsRemaining--;
+		//this.statemilliSecondsRemaining--;
 		if(this.state.minutes === 0 && this.state.seconds === '00') {
 
 
