@@ -26,20 +26,25 @@ class App extends Component {
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
-				console.log('start');
+			console.log('this.state.minutes');
+					console.log(this.state.minutes);
+					console.log('this.state.seconds');
+					console.log(this.state.seconds);
 				//start timer
 				this.intervalHandle = setInterval(this.tick, 1000);
-				//check whether session or breal mode
-				if(this.state.currentBreakSessionMode === true){
-					//set time to minutes value
-					let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
-					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
 
-				} else if(this.state.currentBreakSessionMode === false) {
-					let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
-					this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+					//check whether session or breal mode
+					if(this.state.currentBreakSessionMode === true){
+						//set time to minutes value
+						let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
+						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
 
-				}
+					} else if(this.state.currentBreakSessionMode === false) {
+						
+						let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
+						this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
+
+					}
 				//change current state to start
 				this.setState({currentTimerState:'start'},()=>(console.log('success:start')))
 			
@@ -50,7 +55,7 @@ class App extends Component {
 	pause = function() {
 		clearInterval(this.intervalHandle);
 		//change current state to pause
-		this.setState({currentTimerState:'pause'},()=>({currentTimerState: 'pause',}))
+		this.setState({currentTimerState:'pause'},()=>(console.log('success:pause')))
 	}
 	//running each second
 	tick = function() {
