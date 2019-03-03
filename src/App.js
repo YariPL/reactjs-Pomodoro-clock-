@@ -22,7 +22,6 @@ class App extends Component {
 		this.pause = this.pause.bind(this);
 		//in public folder, relative to index.html
 		this.alarm = new Audio('alarm.mp3');
-
 	}
 	start_stop = function() {
 		if(this.state.currentTimerState === 'pause'){
@@ -39,12 +38,12 @@ class App extends Component {
 				//set time to minutes value
 				let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
 				this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-				this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
+				this.setState({secondsRemaining:this.secondsRemaining - 1},()=>(console.log('success:new secondsRemaining')))
 			} else if(this.state.currentBreakSessionMode === false) {
 				console.log('changecurrrentbreaksessionmode false')
 				let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
 				this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-				this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
+				this.setState({secondsRemaining:this.secondsRemaining - 1},()=>(console.log('success:new secondsRemaining')))
 
 			}
 		
@@ -60,23 +59,11 @@ class App extends Component {
 	}
 	//running each second
 	tick = function() {
-		//console.log('%c here we start the show', 'font-size:22px;')
 		let min = Math.floor(this.state.secondsRemaining / 60);
 		let sec = this.state.secondsRemaining - (min * 60);
 		//set minutes and seconds to value of min and sec
 		this.setState({minutes: min, seconds: sec},()=>(console.log('')))
 		//adding zero if value is less then zero
-		/*if (sec < 10) {
-		  this.setState({
-		    seconds: "0" + this.state.seconds,
-		  })
-		}
-		//adding zero if value is less then zero
-		if (min < 10) {
-		this.setState({
-		  minutes: "0" + min,
-		 })
-		}*/
 		console.log('%c MINUS','font-size:44px')
 		this.setState({
 			secondsRemaining:this.state.secondsRemaining - 1},
@@ -93,9 +80,6 @@ class App extends Component {
 				secondsRemaining:null
 			},()=>{
 				this.start_stop();
-				console.log(this.state.seconds)
-				console.log(this.state.minutes)
-			//	alert('00')
 			})
 		} 
 		
