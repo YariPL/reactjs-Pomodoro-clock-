@@ -14,7 +14,7 @@ class App extends Component {
 			currentTimerState: 'pause',
 			timer:null,
 			secondsRemaining:0,
-			temporaryHours: null,
+			temporaryHours: null
 		};
 	   this.start_stop = this.start_stop.bind(this);
 		this.tick = this.tick.bind(this);
@@ -38,12 +38,12 @@ class App extends Component {
 				//set time to minutes value
 				let time = this.state.minutes ? this.state.minutes : this.state.sessionLength;
 				this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-				this.setState({secondsRemaining:this.secondsRemaining - 1},()=>(console.log('success:new secondsRemaining')))
+				this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 			} else if(this.state.currentBreakSessionMode === false) {
 				console.log('changecurrrentbreaksessionmode false')
 				let time = this.state.minutes ? this.state.minutes : this.state.breakLength;
 				this.secondsRemaining = this.state.secondsRemaining ? this.state.secondsRemaining :time * 60;
-				this.setState({secondsRemaining:this.secondsRemaining - 1},()=>(console.log('success:new secondsRemaining')))
+				this.setState({secondsRemaining:this.secondsRemaining},()=>(console.log('success:new secondsRemaining')))
 
 			}
 		
